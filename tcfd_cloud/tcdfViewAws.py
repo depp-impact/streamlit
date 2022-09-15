@@ -186,17 +186,17 @@ pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':
        '81':'北海道開発局','82':'東北地方整備局','83':'関東地方整備局','84':'北陸地方整備局','85':'中部地方整備局',
        '86':'近畿地方整備局','87':'中国地方整備局','88':'四国地方整備局','88':'九州地方整備局','89':'沖縄総合事務局',
     }
-st.text('setting sidebar')
+#st.text('setting sidebar')
 optpref = st.sidebar.selectbox('県名', pref.values(), key='PREF')
 property_columns, output_columns = get_table_column()
 
-st.text('set config')
-page_config = {"layout":"wide","initial_sidebar_state":"auto"}
-st.set_page_config(**page_config)
+#st.text('set config')
+#page_config = {"layout":"wide","initial_sidebar_state":"auto"}
+#st.set_page_config(**page_config)
 
-#st.set_page_config(
-#    page_title="milize tcfd viewer",
-#    layout="wide",
-#    initial_sidebar_state="auto", 
-#)
+st.set_page_config(
+    page_title="milize tcfd viewer",
+    layout="wide",
+    initial_sidebar_state="auto", 
+)
 
