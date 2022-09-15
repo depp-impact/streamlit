@@ -2,8 +2,8 @@
 import os,sys, traceback
 import mysql.connector
 
-sys.path.append('./config')
-import configfile
+#sys.path.append('./config')
+#import configfile
 
 class mysql_db():
     def __init__(self):
@@ -11,20 +11,23 @@ class mysql_db():
     #接続
     def connect(self, isAws=False, schema=''):
         try:
-            cfg = configfile.ConfigFile(os.getcwd()+'/config/config.ini')
-            if( cfg.dbOK == True ):
+            mydb = mysql.connector.connect(
+                            user='admin', password='milize01', 
+                            host='milize-data-01.c9rxsaes2idt.ap-northeast-1.rds.amazonaws.com', database=schema )
+        #    cfg = configfile.ConfigFile(os.getcwd()+'/config/config.ini')
+        #    if( cfg.dbOK == True ):
                 #mydb = mysql.connector.connect(
                 #            user='milize', password='milize1234', 
                 #            host='localhost', database=schema )
-                if(isAws==False):
-                    mydb = mysql.connector.connect(user='milize', password='milize1234',host='localhost')
-                else:
-                    mydb = mysql.connector.connect(
-                            user=cfg.dbUserName, password=cfg.dbPassWord, 
-                            host=cfg.dbServer, database=schema )
-                return mydb
-            else:
-                return None        
+        #        if(isAws==False):
+        #            mydb = mysql.connector.connect(user='milize', password='milize1234',host='localhost')
+        #        else:
+        #            mydb = mysql.connector.connect(
+        #                    user=cfg.dbUserName, password=cfg.dbPassWord, 
+        #                    host=cfg.dbServer, database=schema )
+        #        return mydb
+        #    else:
+        #       return None        
         except:
             print(traceback.format_exc())
             return  None
