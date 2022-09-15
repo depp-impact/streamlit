@@ -1,8 +1,0 @@
-streamlit==1.11.1
-streamlit-aggrid==0.3.3
-streamlit-folium==0.6.15
-SQLAlchemy==1.4.41
-geopandas==0.10.2
-folium==0.12.1.post1
-mysql-connector-python==8.0.27
-configparser==5.1.0
