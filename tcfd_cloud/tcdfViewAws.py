@@ -12,19 +12,28 @@ from st_aggrid.shared import GridUpdateMode
 import pandas as pd
 import requests
 
+pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':'秋田県','06':'山形県','07':'福島県',
+       '08':'茨城県','09':'栃木県','10':'群馬県','11':'埼玉県','12':'千葉県','13':'東京都','14':'神奈川県',
+       '15':'新潟県','16':'富山県','17':'石川県','18':'福井県','19':'山梨県','20':'長野県','21':'岐阜県',
+       '22':'静岡県','23':'愛知県','24':'三重県','25':'滋賀県','26':'京都府','27':'大阪府','28':'兵庫県',
+       '29':'奈良県','30':'和歌山県','31':'鳥取県','32':'島根県','33':'岡山県','34':'広島県','35':'山口県',
+       '36':'徳島県','37':'香川県','38':'愛媛県','39':'高知県','40':'福岡県','41':'佐賀県','42':'長崎県',
+       '43':'熊本県','44':'大分県','45':'宮崎県','46':'鹿児島県','47':'沖縄県',
+       '81':'北海道開発局','82':'東北地方整備局','83':'関東地方整備局','84':'北陸地方整備局','85':'中部地方整備局',
+       '86':'近畿地方整備局','87':'中国地方整備局','88':'四国地方整備局','88':'九州地方整備局','89':'沖縄総合事務局',
+    }
+optpref = st.sidebar.selectbox('県名', pref.values(), key='PREF')
+
+st.set_page_config(
+    page_title="milize tcfd viewer",
+    layout="wide",
+    initial_sidebar_state="expanded", 
+)
 mysql_db = SQLUtil.mysql_db()
 host=st.secrets["mysql"]["host"]
 schema=st.secrets["mysql"]["database"]
 userid=st.secrets["mysql"]["user"]
 passwd=st.secrets["mysql"]["password"]
-st.set_page_config(
-    page_title="milize tcfd viewer",
-    layout="wide",
-    initial_sidebar_state="auto", 
-)
-
-
-
 #st.text(host)
 #st.text(userid)
 #st.text(passwd)
@@ -69,11 +78,10 @@ def show_map_data(inputdata):
     st_data = st_folium(map, width=1200, height=800)
     #st.components.v1.html(folium.Figure().add_child(map_).render(), height=500)
 
-def get_calculate_result(pid, output_columns):
+def get_calculate_result(pid):
     sql = f"select water_depth {output_columns['water_depth']}, river_name {output_columns['river_name']},"\
                 f"damage_rate {output_columns['damage_rate']}, damage_amount {output_columns['damage_amount']} "\
-            f"from tcfd.output_information where property_id = '{pid}';"
-    print(sql)
+                f"from tcfd.output_information where property_id = '{pid}';"
 
     df = pd.read_sql(sql, mydb, coerce_float=True)
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -114,7 +122,7 @@ def get_property(pref):
         #inLabel1, inLabel2, inLabel3, inLabel4 = st.columns(4)
         #st.text()
         #st.write(data["selected_rows"])
-        calc = get_calculate_result(data["selected_rows"][0]['物件ID'], output_columns)
+        calc = get_calculate_result(data["selected_rows"][0]['物件ID'])
         lat = data["selected_rows"][0]['緯度']
         lon = data["selected_rows"][0]['経度']
 
@@ -153,9 +161,9 @@ def get_table_column():
 
         output_columns = {}
         sql = f"select COLUMN_NAME, COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'tcfd' and TABLE_NAME = 'output_information'"
-        st.text(sql)
+        
+        #st.text(sql)
         recs = mysql_db.fetch(mydb, sql)
-        output_information = {}
         for rec in recs:
             comment = rec[1]
             if('\n' in rec[1]):
@@ -182,23 +190,5 @@ def view(userid, passwd):
     if(optpref != st.session_state["PREF"]):
         get_property(optpref)
 
-
-
-pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':'秋田県','06':'山形県','07':'福島県',
-       '08':'茨城県','09':'栃木県','10':'群馬県','11':'埼玉県','12':'千葉県','13':'東京都','14':'神奈川県',
-       '15':'新潟県','16':'富山県','17':'石川県','18':'福井県','19':'山梨県','20':'長野県','21':'岐阜県',
-       '22':'静岡県','23':'愛知県','24':'三重県','25':'滋賀県','26':'京都府','27':'大阪府','28':'兵庫県',
-       '29':'奈良県','30':'和歌山県','31':'鳥取県','32':'島根県','33':'岡山県','34':'広島県','35':'山口県',
-       '36':'徳島県','37':'香川県','38':'愛媛県','39':'高知県','40':'福岡県','41':'佐賀県','42':'長崎県',
-       '43':'熊本県','44':'大分県','45':'宮崎県','46':'鹿児島県','47':'沖縄県',
-       '81':'北海道開発局','82':'東北地方整備局','83':'関東地方整備局','84':'北陸地方整備局','85':'中部地方整備局',
-       '86':'近畿地方整備局','87':'中国地方整備局','88':'四国地方整備局','88':'九州地方整備局','89':'沖縄総合事務局',
-    }
-#st.text('setting sidebar')
-optpref = st.sidebar.selectbox('県名', pref.values(), key='PREF')
 property_columns, output_columns = get_table_column()
-
-#st.text('set config')
-#page_config = {"layout":"wide","initial_sidebar_state":"auto"}
-#st.set_page_config(**page_config)
 
