@@ -175,13 +175,18 @@ def view(userid, passwd):
     if(mydb is None):
         st.text('mydb is None')
         return
-    property_columns, output_columns = get_table_column()
-    #print(property_columns, output_columns)
-
-    st.set_page_config(layout="wide")
+    st.text('mydb is connect!!')
+    st.set_page_config(
+        page_title="milize tcfd viewer",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
+    #st.set_page_config(layout="wide")
     #print('view:',userid, passwd)
     #mydb = mysql_db.connect('market')
     #dataTypes = get_schema_tables('market')
+    property_columns, output_columns = get_table_column()
+    #print(property_columns, output_columns)
     optpref = st.sidebar.selectbox('県名', pref.values())
-    st.title("---milize tcfd output viewer---")
+    #st.title("---milize tcfd output viewer---")
     get_property(optpref, property_columns, output_columns)
