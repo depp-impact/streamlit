@@ -86,7 +86,7 @@ def get_property(pref):
                 f"assessed_land_amount {property_columns['assessed_land_amount']}, assessed_building_amount {property_columns['assessed_building_amount']},"\
                 f"assessed_apartment_amount {property_columns['assessed_apartment_amount']} "\
             f"from tcfd.property_information where address like '{pref}%' and (latitude is not null and longitude is not null);"
-    print(sql)
+    #print(sql)
     #df = pd.read_sql(sql, mydb, coerce_float=True, index_col=property_columns['property_id'])
     df = pd.read_sql(sql, mydb, coerce_float=True)
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -171,7 +171,8 @@ def view(userid, passwd):
     #print(property_columns, output_columns)
     #st.title("---milize tcfd output viewer---")
     #get_property(optpref, property_columns, output_columns)
-    get_property(optpref)
+    if(optpref != st.session_state["PREF"]):
+        get_property(optpref)
 
 
 
@@ -186,12 +187,11 @@ pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':
        '86':'近畿地方整備局','87':'中国地方整備局','88':'四国地方整備局','88':'九州地方整備局','89':'沖縄総合事務局',
     }
 st.text('setting sidebar')
-optpref = st.sidebar.selectbox('県名', pref.values())
+optpref = st.sidebar.selectbox('県名', pref.values(), key='PREF')
 property_columns, output_columns = get_table_column()
 
 st.text('set config')
 page_config = {"layout":"wide","initial_sidebar_state":"auto"}
-
 st.set_page_config(**page_config)
 
 #st.set_page_config(
