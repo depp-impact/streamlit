@@ -17,7 +17,10 @@ host=st.secrets["mysql"]["host"]
 schema=st.secrets["mysql"]["database"]
 userid=st.secrets["mysql"]["user"]
 passwd=st.secrets["mysql"]["password"]
-print(host, userid, passwd, schema)
+st.text(host)
+st.text(userid)
+st.text(passwd)
+st.text(schema)
 
 mydb = mysql_db.connect(host, userid, passwd, schema)
 
