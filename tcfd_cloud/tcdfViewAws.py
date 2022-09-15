@@ -1,5 +1,5 @@
 import traceback
-from turtle import onclick
+#from turtle import onclick
 import streamlit as st
 from streamlit_folium import st_folium      # streamlitでfoliumを使う
 import folium
