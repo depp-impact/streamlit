@@ -87,7 +87,7 @@ def get_calculate_result(pid, output_columns):
                 gridOptions=gridOptions, height=85)
 
 #def get_property(pref, property_columns, output_columns):
-def get_property(pref, property_columns, output_columns):
+def get_property(pref):
     #property_type = 1:マンション 2:アパート 3:戸建て 4:企業 5:農地等
     sql = f"select property_id {property_columns['property_id']}, contract_number {property_columns['contract_number']},"\
                 f"property_type {property_columns['property_type']}, loan_amount {property_columns['loan_amount']},"\
