@@ -17,9 +17,9 @@ host=st.secrets["host"]
 schema=st.secrets["database"]
 userid=st.secrets["user"]
 passwd=st.secrets["password"]
+print(host, userid, passwd, schema)
 
 mydb = mysql_db.connect(host, userid, passwd, schema)
-print(host, userid, passwd, schema)
 
 pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':'秋田県','06':'山形県','07':'福島県',
         '08':'茨城県','09':'栃木県','10':'群馬県','11':'埼玉県','12':'千葉県','13':'東京都','14':'神奈川県',

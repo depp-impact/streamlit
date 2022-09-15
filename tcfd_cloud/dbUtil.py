@@ -9,7 +9,7 @@ class mysql_db():
     def __init__(self):
         pass
     #接続
-    def connect(self, host, userid, passwd, schema)
+    def connect(self, host, userid, passwd, schema):
         try:
             mydb = mysql.connector.connect(user=userid, password=passwd, 
                                             host=host, database=schema )
