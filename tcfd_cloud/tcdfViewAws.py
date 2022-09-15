@@ -21,7 +21,7 @@ st.text(host)
 st.text(userid)
 st.text(passwd)
 st.text(schema)
-
+st.text(f"user={userid},password={passwd},host={host}, database={schema}")
 mydb = mysql_db.connect(host, userid, passwd, schema)
 
 pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':'秋田県','06':'山形県','07':'福島県',
