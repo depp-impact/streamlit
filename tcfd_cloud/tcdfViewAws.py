@@ -13,10 +13,10 @@ import pandas as pd
 import requests
 
 mysql_db = SQLUtil.mysql_db()
-host=st.secrets["host"]
-schema=st.secrets["database"]
-userid=st.secrets["user"]
-passwd=st.secrets["password"]
+host=st.secrets["mysql"]["host"]
+schema=st.secrets["mysql"]["database"]
+userid=st.secrets["mysql"]["user"]
+passwd=st.secrets["mysql"]["password"]
 print(host, userid, passwd, schema)
 
 mydb = mysql_db.connect(host, userid, passwd, schema)
