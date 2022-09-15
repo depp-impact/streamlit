@@ -24,7 +24,7 @@ class mysql_db():
         #            mydb = mysql.connector.connect(
         #                    user=cfg.dbUserName, password=cfg.dbPassWord, 
         #                    host=cfg.dbServer, database=schema )
-        #        return mydb
+            return mydb
         #    else:
         #       return None        
         except:
