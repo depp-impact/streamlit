@@ -176,11 +176,11 @@ def view(userid, passwd):
         st.text('mydb is None')
         return
     st.text('mydb is connect!!')
-    st.set_page_config(
-        page_title="milize tcfd viewer",
-        layout="wide",
-        initial_sidebar_state="expanded",
-    )
+    #st.set_page_config(
+    #    page_title="milize tcfd viewer",
+    #    layout="wide",
+    #    initial_sidebar_state="expanded",
+    #)
     #st.set_page_config(layout="wide")
     #print('view:',userid, passwd)
     #mydb = mysql_db.connect('market')
