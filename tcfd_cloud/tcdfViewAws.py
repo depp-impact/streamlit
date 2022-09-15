@@ -17,11 +17,11 @@ host=st.secrets["mysql"]["host"]
 schema=st.secrets["mysql"]["database"]
 userid=st.secrets["mysql"]["user"]
 passwd=st.secrets["mysql"]["password"]
-st.text(host)
-st.text(userid)
-st.text(passwd)
-st.text(schema)
-st.text(f"user={userid},password={passwd},host={host}, database={schema}")
+#st.text(host)
+#st.text(userid)
+#st.text(passwd)
+#st.text(schema)
+#st.text(f"user={userid},password={passwd},host={host}, database={schema}")
 mydb = mysql_db.connect(host, userid, passwd, schema)
 
 pref={ '01':'北海道','02':'青森県','03':'岩手県','04':'宮城県','05':'秋田県','06':'山形県','07':'福島県',
@@ -86,6 +86,7 @@ def get_calculate_result(pid, output_columns):
     data = AgGrid(df, fit_columns_on_grid_load=True,
                 gridOptions=gridOptions, height=85)
 
+#def get_property(pref, property_columns, output_columns):
 def get_property(pref, property_columns, output_columns):
     #property_type = 1:マンション 2:アパート 3:戸建て 4:企業 5:農地等
     sql = f"select property_id {property_columns['property_id']}, contract_number {property_columns['contract_number']},"\
@@ -135,7 +136,6 @@ def get_property(pref, property_columns, output_columns):
                 #print(sinsui_depth)
                 #print(sinsui_depth['Depth'])
                 st.text('(参考) 水防マップ深水深：'+str(sinsui_depth['Depth'])+'m')
-
     #st.dataframe(df, height=800, width=2000)
     #AgGrid(df, fit_columns_on_grid_load=True,width=1500, height=800)
     #st.table(df,height=800)
@@ -175,18 +175,20 @@ def view(userid, passwd):
     if(mydb is None):
         st.text('mydb is None')
         return
-    st.text('mydb is connect!!')
-    #st.set_page_config(
-    #    page_title="milize tcfd viewer",
-    #    layout="wide",
-    #    initial_sidebar_state="expanded",
-    #)
+    #st.text('mydb is connect!!')
     #st.set_page_config(layout="wide")
     #print('view:',userid, passwd)
     #mydb = mysql_db.connect('market')
     #dataTypes = get_schema_tables('market')
-    property_columns, output_columns = get_table_column()
     #print(property_columns, output_columns)
-    optpref = st.sidebar.selectbox('県名', pref.values())
     #st.title("---milize tcfd output viewer---")
-    get_property(optpref, property_columns, output_columns)
+    #get_property(optpref, property_columns, output_columns)
+    get_property(optpref)
+
+st.set_page_config(
+    page_title="milize tcfd viewer",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+optpref = st.sidebar.selectbox('県名', pref.values())
+property_columns, output_columns = get_table_column()
