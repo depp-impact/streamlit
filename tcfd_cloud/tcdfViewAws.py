@@ -142,36 +142,41 @@ def get_property(pref, property_columns, output_columns):
 
 def get_table_column():
     sql = f"select COLUMN_NAME, COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'tcfd' and TABLE_NAME = 'property_information'"
-    recs = mysql_db.fetch(mydb, sql)
-    property_columns = {}
+    st.text(sql)
+    try:
+        recs = mysql_db.fetch(mydb, sql)
+        property_columns = {}
 
-    for rec in recs:
-        comment = rec[1]
-        if('\n' in rec[1]):
-            comment = rec[1].split('\n')[0]
-        if('(' in rec[1]):
-            comment = rec[1].split('(')[0]
-        property_columns.update({rec[0]:comment.replace('\u3000',' ')})
+        for rec in recs:
+            comment = rec[1]
+            if('\n' in rec[1]):
+                comment = rec[1].split('\n')[0]
+            if('(' in rec[1]):
+                comment = rec[1].split('(')[0]
+            property_columns.update({rec[0]:comment.replace('\u3000',' ')})
 
-    output_columns = {}
-    sql = f"select COLUMN_NAME, COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'tcfd' and TABLE_NAME = 'output_information'"
-    recs = mysql_db.fetch(mydb, sql)
-    output_information = {}
-    for rec in recs:
-        comment = rec[1]
-        if('\n' in rec[1]):
-            comment = rec[1].split('\n')[0]
-        if('(' in rec[1]):
-            comment = rec[1].split('(')[0]
-        output_columns.update({rec[0]:comment.replace('\u3000',' ')})
-    return property_columns, output_columns
+        output_columns = {}
+        sql = f"select COLUMN_NAME, COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'tcfd' and TABLE_NAME = 'output_information'"
+        st.text(sql)
+        recs = mysql_db.fetch(mydb, sql)
+        output_information = {}
+        for rec in recs:
+            comment = rec[1]
+            if('\n' in rec[1]):
+                comment = rec[1].split('\n')[0]
+            if('(' in rec[1]):
+                comment = rec[1].split('(')[0]
+            output_columns.update({rec[0]:comment.replace('\u3000',' ')})
+        return property_columns, output_columns
+    except:
+        st.text(traceback.format_exc)
 
 def view(userid, passwd):
     if(mydb is None):
-        print('mydb is None')
+        st.text('mydb is None')
         return
     property_columns, output_columns = get_table_column()
-    print(property_columns, output_columns)
+    #print(property_columns, output_columns)
 
     st.set_page_config(layout="wide")
     #print('view:',userid, passwd)
