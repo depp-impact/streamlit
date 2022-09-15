@@ -17,6 +17,14 @@ host=st.secrets["mysql"]["host"]
 schema=st.secrets["mysql"]["database"]
 userid=st.secrets["mysql"]["user"]
 passwd=st.secrets["mysql"]["password"]
+st.set_page_config(
+    page_title="milize tcfd viewer",
+    layout="wide",
+    initial_sidebar_state="auto", 
+)
+
+
+
 #st.text(host)
 #st.text(userid)
 #st.text(passwd)
@@ -193,10 +201,4 @@ property_columns, output_columns = get_table_column()
 #st.text('set config')
 #page_config = {"layout":"wide","initial_sidebar_state":"auto"}
 #st.set_page_config(**page_config)
-
-st.set_page_config(
-    page_title="milize tcfd viewer",
-    layout="wide",
-    initial_sidebar_state="auto", 
-)
 
