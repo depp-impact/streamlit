@@ -9,11 +9,10 @@ class mysql_db():
     def __init__(self):
         pass
     #接続
-    def connect(self, isAws=False, schema=''):
+    def connect(self, host, userid, passwd, schema)
         try:
-            mydb = mysql.connector.connect(
-                            user='admin', password='milize01', 
-                            host='milize-data-01.c9rxsaes2idt.ap-northeast-1.rds.amazonaws.com', database=schema )
+            mydb = mysql.connector.connect(user=userid, password=passwd, 
+                                            host=host, database=schema )
         #    cfg = configfile.ConfigFile(os.getcwd()+'/config/config.ini')
         #    if( cfg.dbOK == True ):
                 #mydb = mysql.connector.connect(
