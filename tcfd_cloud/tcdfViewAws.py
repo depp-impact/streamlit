@@ -110,39 +110,37 @@ def get_property(pref):
               #allow_unsafe_jscode=True, 
               #update_mode=GridUpdateMode.SELECTION_CHANGED)
     
-    col1, col2 = st.columns(2)
+    #col1, col2 = st.columns(2)
     if(data["selected_rows"] != []):
-        with col1:
-            show_map_data(data["selected_rows"])
-        with col2:
-            st.text('深水深・被害額 計算結果')
-            #inLabel1, inLabel2, inLabel3, inLabel4 = st.columns(4)
-            #st.text()
-            #st.write(data["selected_rows"])
-            calc = get_calculate_result(data["selected_rows"][0]['物件ID'], output_columns)
-            lat = data["selected_rows"][0]['緯度']
-            lon = data["selected_rows"][0]['経度']
+        st.text('深水深・被害額 計算結果')
+        #inLabel1, inLabel2, inLabel3, inLabel4 = st.columns(4)
+        #st.text()
+        #st.write(data["selected_rows"])
+        calc = get_calculate_result(data["selected_rows"][0]['物件ID'], output_columns)
+        lat = data["selected_rows"][0]['緯度']
+        lon = data["selected_rows"][0]['経度']
 
-            #水防Mapから詳細な深水深をAPIで取得
-            #print(lat, lon)
-            apiurl = f'https://suiboumap.gsi.go.jp/shinsuimap/Api/Public/GetMaxDepth?lon={lon}&lat={lat}'
-            sinsui_depth = requests.get(apiurl)
-            sinsui_depth = sinsui_depth.json()
+        #水防Mapから詳細な深水深をAPIで取得
+        #print(lat, lon)
+        apiurl = f'https://suiboumap.gsi.go.jp/shinsuimap/Api/Public/GetMaxDepth?lon={lon}&lat={lat}'
+        sinsui_depth = requests.get(apiurl)
+        sinsui_depth = sinsui_depth.json()
 
-            if(sinsui_depth is None):
-                st.text('水防マップ深水深：該当無し')
-            else:
-                #sinsui_depth = sinsui_depth.json()
-                #print(sinsui_depth)
-                #print(sinsui_depth['Depth'])
-                st.text('(参考) 水防マップ深水深：'+str(sinsui_depth['Depth'])+'m')
+        if(sinsui_depth is None):
+            st.text('水防マップ深水深：該当無し')
+        else:
+            #sinsui_depth = sinsui_depth.json()
+            #print(sinsui_depth)
+            #print(sinsui_depth['Depth'])
+            st.text('(参考) 水防マップ深水深：'+str(sinsui_depth['Depth'])+'m')
+        show_map_data(data["selected_rows"])
     #st.dataframe(df, height=800, width=2000)
     #AgGrid(df, fit_columns_on_grid_load=True,width=1500, height=800)
     #st.table(df,height=800)
 
 def get_table_column():
     sql = f"select COLUMN_NAME, COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'tcfd' and TABLE_NAME = 'property_information'"
-    st.text(sql)
+    #st.text(sql)
     try:
         recs = mysql_db.fetch(mydb, sql)
         property_columns = {}
