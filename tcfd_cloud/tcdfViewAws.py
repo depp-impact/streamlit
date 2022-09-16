@@ -58,7 +58,7 @@ def get_calculate_result(mydb, pid, outColumns):
     sql = f"select water_depth {outColumns['water_depth']}, river_name {outColumns['river_name']},"\
                 f"damage_rate {outColumns['damage_rate']}, damage_amount {outColumns['damage_amount']} "\
                 f"from tcfd.output_information where property_id = '{pid}';"
-
+    #print(sql)
     df = pd.read_sql(sql, mydb, coerce_float=True)
     gb = GridOptionsBuilder.from_dataframe(df)
     #gb.configure_selection(use_checkbox=True)
@@ -96,7 +96,7 @@ def get_property(st, mydb, inColumns, outColumns, pref):
         #inLabel1, inLabel2, inLabel3, inLabel4 = st.columns(4)
         #st.text()
         #st.write(data["selected_rows"])
-        calc = get_calculate_result(data[mydb, "selected_rows"][0]['物件ID'], outColumns)
+        calc = get_calculate_result(mydb, data["selected_rows"][0]['物件ID'], outColumns)
         lat = data["selected_rows"][0]['緯度']
         lon = data["selected_rows"][0]['経度']
 
@@ -112,7 +112,7 @@ def get_property(st, mydb, inColumns, outColumns, pref):
             #sinsui_depth = sinsui_depth.json()
             #print(sinsui_depth)
             #print(sinsui_depth['Depth'])
-            st.text('(参考) 水防マップ深水深：'+str(sinsui_depth['Depth'])+'m')
+            st.text('(参考) 水防マップAPIで参照した深水深の値：'+str(sinsui_depth['Depth'])+'m')
         show_map_data(data["selected_rows"])
     #st.dataframe(df, height=800, width=2000)
     #AgGrid(df, fit_columns_on_grid_load=True,width=1500, height=800)
