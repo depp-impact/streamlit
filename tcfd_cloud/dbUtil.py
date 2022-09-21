@@ -13,20 +13,7 @@ class mysql_db():
         try:
             mydb = mysql.connector.connect(user=userid, password=passwd, 
                                             host=host, database=schema )
-        #    cfg = configfile.ConfigFile(os.getcwd()+'/config/config.ini')
-        #    if( cfg.dbOK == True ):
-                #mydb = mysql.connector.connect(
-                #            user='milize', password='milize1234', 
-                #            host='localhost', database=schema )
-        #        if(isAws==False):
-        #            mydb = mysql.connector.connect(user='milize', password='milize1234',host='localhost')
-        #        else:
-        #            mydb = mysql.connector.connect(
-        #                    user=cfg.dbUserName, password=cfg.dbPassWord, 
-        #                    host=cfg.dbServer, database=schema )
             return mydb
-        #    else:
-        #       return None        
         except:
             print(traceback.format_exc())
             return  None
