@@ -126,6 +126,10 @@ def get_property(st, mydb, inColumns, outColumns, optpref, schema):
         
         #col1, col2 = st.columns(2)
         if(data["selected_rows"] != []):
+            #property_id = data["selected_rows"][0]['物件ID']
+            st.text(f'property_id:{property_id}')
+            st.text(f'物件ID:{data["selected_rows"][0]["物件ID"]}')
+
             if(property_id == data["selected_rows"][0]['物件ID']):
                 print('property_id == ',data["selected_rows"][0]['物件ID'])
                 return
