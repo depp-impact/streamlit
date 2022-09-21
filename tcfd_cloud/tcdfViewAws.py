@@ -1,5 +1,4 @@
 #from tkinter.messagebox import RETRY
-from time import sleep
 import traceback
 #from turtle import onclick
 import streamlit as st
@@ -15,23 +14,15 @@ from st_aggrid.grid_options_builder import GridOptionsBuilder
 from st_aggrid.shared import GridUpdateMode
 import pandas as pd
 import requests
-from time import sleep
+property_id = ''
 
 mysql_db = SQLUtil.mysql_db()
-property_id = ''
 
 def show_map_data(mydb, inputdata, riverName,schema):
     lat = inputdata[0]['緯度']
     lon = inputdata[0]['経度']
-    #copyright_osm = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    #map = folium.Map(location=[lat, lon], zoom_start=15,attr=copyright_osm)
-    map = folium.Map(location=[lat, lon], zoom_start=15,tiles='https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
-                fmt = 'image/png',
-                attr = '&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>',
-                name = '国土地理院地図',
-                dragging=False, no_touch=True,
-                zoom_control=False,
-                scrollWheelZoom=False)
+    copyright_osm = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    map = folium.Map(location=[lat, lon], zoom_start=15,attr=copyright_osm)
 
     #pop=f"{row['都道府県名']}({row['都道府県庁所在地']})<br>　人口…{row['人口']:,}人<br>　面積…{row['面積']:,}km2"
     folium.Marker(
@@ -77,7 +68,6 @@ def show_map_data(mydb, inputdata, riverName,schema):
         # アイコンの指定(アイコン、色)
 #         icon=folium.Icon(icon="home",icon_color="white", color="red")
 #     ).add_to(m)
-    sleep(5)
     st_data = st_folium(map, width=1200, height=800)
     #st.components.v1.html(folium.Figure().add_child(map_).render(), height=500)
 
@@ -86,9 +76,9 @@ def get_calculate_result(mydb, pid, output_columns):
         sql = f"select water_depth {output_columns['water_depth']}, river_name {output_columns['river_name']},"\
                     f"damage_rate {output_columns['damage_rate']}, damage_amount {output_columns['damage_amount']} "\
                 f"from tcfd.output_information where property_id = '{pid}';"
-        #print(sql)
+        print(sql)
         df = pd.read_sql(sql, mydb, coerce_float=True)
-        #print(df)
+        print(df)
         if(len(df) == 0):
             st.text('計算結果が見つかりませんでした。')
             return ''
@@ -99,8 +89,8 @@ def get_calculate_result(mydb, pid, output_columns):
         #物件データの表示
         data = AgGrid(df, fit_columns_on_grid_load=True,
                         gridOptions=gridOptions, height=85)
-        #print(df)
-        #print(df['河川名'][0])
+        print(df)
+        print(df['河川名'][0])
         return df['河川名'][0]
     except:
         print(traceback.format_exc())
@@ -121,7 +111,7 @@ def get_property(st, mydb, inColumns, outColumns, optpref, schema):
                 f"o.damage_rate <> 0"
         #f"water_depth {outColumns['water_depth']}, river_name {outColumns['river_name']},"\
         #f"damage_rate {outColumns['damage_rate']}, damage_amount {outColumns['damage_amount']} "\
-        #print(sql)
+        print(sql)
         df = pd.read_sql(sql, mydb, coerce_float=True)
         gb = GridOptionsBuilder.from_dataframe(df)
         gb.configure_selection(use_checkbox=True)
@@ -138,12 +128,14 @@ def get_property(st, mydb, inColumns, outColumns, optpref, schema):
         if(data["selected_rows"] != []):
             if(property_id == data["selected_rows"][0]['物件ID']):
                 print('property_id == ',data["selected_rows"][0]['物件ID'])
-                return 
+                return
+            property_id = data["selected_rows"][0]['物件ID']
+
             st.text('深水深・被害額 計算結果')
             #inLabel1, inLabel2, inLabel3, inLabel4 = st.columns(4)
             #st.text()
             #st.write(data["selected_rows"])
-            riverName = get_calculate_result(mydb, data["selected_rows"][0]['物件ID'], outColumns)
+            riverName = get_calculate_result(mydb, property_id, outColumns)
             lat = data["selected_rows"][0]['緯度']
             lon = data["selected_rows"][0]['経度']
 
