@@ -53,4 +53,4 @@ if(mydb is None):
     st.text('mydb is None')
 else:
     property_columns, output_columns = get_table_column()
-    tcdfViewAws.view(st, mydb, property_columns, output_columns, 'milize', 'milize')
+    tcdfViewAws.view(st, mydb, property_columns, output_columns, 'milize', 'milize', schema)
