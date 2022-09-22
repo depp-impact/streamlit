@@ -1,4 +1,4 @@
-#from tkinter.messagebox import RETRY
+from tkinter.messagebox import RETRY
 from tkinter.tix import AUTO
 import traceback
 from turtle import width
