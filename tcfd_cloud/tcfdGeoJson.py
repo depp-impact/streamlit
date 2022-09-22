@@ -18,20 +18,20 @@ def expotGeoJSON(gems):
         #newdata.crs = from_epsg(6668)
         outfp = f"gem_{fileindex}"
         poly_json = newdata.to_json()
-        return poly_json
         #newdata.to_file(filename=outfp+'.json', driver='GeoJSON')
         #newdata.to_file(filename=outfp+'.shp', driver="ESRI Shapefile")
 
         #newdata.to_file(outfp)
         #outfiles.append(outfp+'.json')
         #tt = gpd.read_file(outfp)
+        return poly_json
     return None
 
-def searchSQL(mydb, lat, lon, riverName, schema):
+def searchSQL(mydb, lat, lon, schema):
     cur = mydb.cursor(dictionary=True)
     sql = f"SELECT river_name,ST_AsText(geom) as gem FROM {schema}.mlit_river_inundation_area"\
-            + f" WHERE river_name = '{riverName}' and ST_Intersects(geom, ST_GeomFromText('POINT({lat} {lon})', 0));"
-    print(sql)
+            + f" WHERE ST_Intersects(geom, ST_GeomFromText('POINT({lat} {lon})', 0));"
+    #print(sql)
     result = []
     cur.execute(sql)
     data = cur.fetchall()
