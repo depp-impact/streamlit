@@ -1,7 +1,7 @@
-from tkinter.messagebox import RETRY
-from tkinter.tix import AUTO
+#from tkinter.messagebox import RETRY
+#from tkinter.tix import AUTO
 import traceback
-from turtle import width
+#from turtle import width
 #from turtle import onclick
 import streamlit as st
 from streamlit_folium import st_folium      # streamlitでfoliumを使う
